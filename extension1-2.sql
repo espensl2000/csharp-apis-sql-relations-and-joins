@@ -123,3 +123,49 @@ VALUES
   (10, 3, 16)
 
 
+-- i
+SELECT
+	f.title, pe.name
+FROM filmsnew f
+LEFT JOIN relations re ON f.id = re.film_id
+LEFT JOIN people pe ON pe.id = re.person_id
+LEFT JOIN role rs ON re.role_id = rs.id
+WHERE rs.rolename = 'Director';
+
+-- ii
+SELECT 
+	f.title, pe.name, rs.rolename "role"
+FROM filmsnew f
+LEFT JOIN relations re ON f.id = re.film_id
+LEFT JOIN people pe ON pe.id = re.person_id  
+LEFT JOIN role rs ON re.role_id = rs.id
+WHERE rs.rolename = 'Director' OR rs.rolename = 'Actor'
+ORDER BY f.title;
+
+-- iii
+SELECT DISTINCT
+	f.title
+FROM filmsnew f
+LEFT JOIN relations re ON f.id = re.film_id
+LEFT JOIN people pe ON pe.id = re.person_id
+LEFT JOIN role ro ON re.role_id = ro.id
+WHERE pe.country = 'USA';
+
+-- iv
+SELECT DISTINCT
+	f.title
+FROM filmsnew f
+RIGHT JOIN relations re ON f.id = re.film_id
+RIGHT JOIN people pe ON pe.id = re.person_id  
+RIGHT JOIN role ro ON re.role_id = ro.id 
+WHERE ro.rolename = 'Director' or ro.rolename = 'Writer' group by name, title having count(name) > 1;
+
+-- v
+SELECT DISTINCT
+	f.title, pe.name
+FROM filmsnew f
+RIGHT JOIN relations re ON f.id = re.film_id
+RIGHT JOIN people pe ON pe.id = re.person_id  
+RIGHT JOIN role ro ON re.role_id = ro.id
+WHERE ro.rolename = 'Director' AND f.score >=8
+
